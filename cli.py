@@ -3,7 +3,7 @@ import click as cli
 from settings import GITHUB_TOKEN
 from github import Github
 
-from crud import create, read, update, delete
+from post_crud import create, read, update, delete
 
 # 3.
 # def read(repo, path):
