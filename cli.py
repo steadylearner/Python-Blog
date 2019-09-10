@@ -13,25 +13,30 @@ from post_crud import create, read, update, delete
 # http://click.palletsprojects.com/en/7.x/
 @cli.command()
 @cli.option(
-    "--crud",  "-c",
+    "--crud",
+    "-c",
     prompt="Which CRUD process you want for the GitHub files?",
     default="c",
-    help="Use c | r | u | d to manage files in your repository." #$python cli.py --help
+    help="Use c | r | u | d to manage files in your repository.",  # $python cli.py --help
 )
 @cli.option(
-    "--lang",  "-l",
+    "--lang",
+    "-l",
     prompt="Programming language?(Python, Rust, JavaScript or py, rs, js)",
     default="Python",
-    help="Use Python, Rust, JavaScript or py, rs, js etc"
+    help="Use Python, Rust, JavaScript or py, rs, js etc",
 )
 @cli.option(
-    "--filepath", "-f",
+    "--filepath",
+    "-f",
     prompt="The file path for it?",
     default="README.md",
-    help="Type a path for the file you want to submit to GitHub."
+    help="Type a path for the file you want to submit to GitHub.",
 )
 def manage_posts_at_github(crud: str, lang: str, filepath: str):
-    target = "steadylearner/blog" # It should have equivalent folder structure in your machine
+    target = "steadylearner/Python-Blog"
+      # It should have equivalent folder structure in your machine
+
     g = Github(GITHUB_TOKEN)
     repo = g.get_repo(target)
 
@@ -65,7 +70,7 @@ def manage_posts_at_github(crud: str, lang: str, filepath: str):
 
     # 1. cli.echo(f"use {fp} for {filepath}")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     manage_posts_at_github()
 
 # hint: Updates were rejected because the remote contains work that you do
@@ -73,4 +78,3 @@ if __name__ == '__main__':
 # hint: to the same ref. You may want to first integrate the remote changes
 
 # $git push -u origin master -f
-

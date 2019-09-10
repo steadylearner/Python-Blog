@@ -40,23 +40,24 @@ def create(repo: object, lang: str ,filepath: str):
                 # f.close() with handles error and close() etc instead of you, similar to ? in Rust
             else:
                 repo.create_file(payload, f"create {payload}", contents, branch = "master")
-                print(f"You submitted {payload} to GitHub\n")
-                print(f"The contents is \n {contents}")
+                print(f"\n\t You submitted {payload} to GitHub\n")
+                print(f"\n\t The contents is \n {contents}")
 
-                to_github(payload)
+                # to_github(payload)
 
                 title = filepath.split(".")[0]
                 create_post_log(lang, title, "C")
 
-                # time.sleep(180)
-                # tweet(payload)
-                # email_to_subscribers()
+                # share_response = input(f"Do you want to share {colored_filepath} with others also?([y]/n)")
+                # if not share_response.startswith("n"):
+                    # tweet(payload)
+                    # email_to_subscribers()
 
 # [R]
 def read(repo: object, lang: str, filepath: str):
     payload = f"posts/{lang}/{filepath}"
     byte = repo.get_contents(payload).decoded_content
-    print(byte.decode("utf-8"))
+    print(f"\n{byte.decode('utf-8')}")
 
 # [U]
 def update(repo: object, lang: str, filepath: str):
