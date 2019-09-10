@@ -2,13 +2,13 @@ import webbrowser as web
 
 # import csv
 
-def read_crud_log():
+def read_post_log():
     prefix = "https://github.com/steadylearner/Python-Blog/blob/master"
-    filename = "crud_log.csv"
+    filename = "post_log.csv"
 
     web.open(f"{prefix}/{filename}")
 
-    # with open("crud_log.csv") as csv_file:
+    # with open("post_log.csv") as csv_file:
     #     csv_reader = csv.reader(csv_file, delimiter=',')
     #     line_count = 0
     #     for row in csv_reader:

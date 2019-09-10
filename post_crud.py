@@ -7,7 +7,7 @@ import click as cli # ipython and use this command then, inspect its methods(Use
 from termcolor import colored
 
 from social import to_github, tweet
-from crud_log import create_crud_log
+from post_log import create_post_log
 
 # 4.
 
@@ -46,7 +46,7 @@ def create(repo: object, lang: str ,filepath: str):
                 to_github(payload)
 
                 title = filepath.split(".")[0]
-                create_crud_log(lang, title, "C")
+                create_post_log(lang, title, "C")
 
                 # time.sleep(180)
                 # tweet(payload)
@@ -84,7 +84,7 @@ def update(repo: object, lang: str, filepath: str):
                 print(f"The updated file is \n {new}")
 
                 title = filepath.split(".")[0]
-                create_crud_log(lang, title, "U")
+                create_post_log(lang, title, "U")
 
                 # Use web.open if you want
 
@@ -106,4 +106,4 @@ def delete(repo: object, lang: str, filepath: str):
         print("It is also removed from the GitHub")
 
         title = filepath.split(".")[0]
-        create_crud_log(lang, title, "D")
+        create_post_log(lang, title, "D")

@@ -30,7 +30,7 @@ from post_crud import create, read, update, delete
     default="README.md",
     help="Type a path for the file you want to submit to GitHub."
 )
-def github(crud: str, lang: str, filepath: str):
+def manage_posts_at_github(crud: str, lang: str, filepath: str):
     target = "steadylearner/blog" # It should have equivalent folder structure in your machine
     g = Github(GITHUB_TOKEN)
     repo = g.get_repo(target)
@@ -66,7 +66,7 @@ def github(crud: str, lang: str, filepath: str):
     # 1. cli.echo(f"use {fp} for {filepath}")
 
 if __name__ == '__main__':
-    github()
+    manage_posts_at_github()
 
 # hint: Updates were rejected because the remote contains work that you do
 # hint: not have locally. This is usually caused by another repository pushing

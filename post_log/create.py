@@ -1,8 +1,8 @@
 import os
 import time
 
-def create_crud_log(lang: str, title: str, crud_type: str):
-    filename = "crud_log.csv"
+def create_post_log(lang: str, title: str, crud_type: str):
+    filename = "post_log.csv"
     file_exists = os.path.isfile(filename)
 
     if not file_exists:
