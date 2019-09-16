@@ -12,11 +12,13 @@ from lib import remove_meta
 
 app = Vibora(
     static=StaticHandler(
-        paths=['static', ],
+        paths=['static'],
         url_prefix='/static',
     ),
     template_dirs=['templates'],
 )
+
+REPO_NAME = "Python-Blog"
 
 @app.route('/')
 async def home():
@@ -53,7 +55,7 @@ async def home():
 async def blog(lang: str):
     g = Github(GITHUB_TOKEN)
 
-    repo = g.get_repo("steadylearner/blog")
+    repo = g.get_repo(f"steadylearner/{REPO_NAME}")
     filepath = f"posts/{lang}" # posts/Rust
 
     contents = repo.get_contents(filepath)
@@ -90,7 +92,7 @@ async def show_post(lang: str, title: str):
 
     # https://raw.githubusercontent.com/steadylearner/blog/master/posts/Rust/How%20to%20render%20blog%20posts%20with%20Rust%20Yew%20mounted%20API.md
 
-    prefix = "https://raw.githubusercontent.com/steadylearner/blog/master/posts"
+    prefix = f"https://raw.githubusercontent.com/steadylearner/{REPO_NAME}/master/posts"
     payload = f"{prefix}/{lang}/{title}.md"
     # print(payload)
 
