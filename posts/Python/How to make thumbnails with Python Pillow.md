@@ -1,9 +1,9 @@
 <!--
   Post {
     subtitle: "Learn how to make a thumbnail for all the images in a folder.",
-    image: "post/Python/python-thumbnails-by-Steadylearner.jpg",
-    image_decription: "Code by Steadylearner",
-    tags: "How, commit, Python, GitHub",
+    image: "post/Python/python-thumbnails-by-Steadylearner.png",
+    image_decription: "Image by Steadylearner",
+    tags: "How, Python, thumbnail, Pillow",
   }
 -->
 
@@ -187,7 +187,7 @@ const useThumbnail = (path = "") => {
 <img src={useThumbnail(state.src)} />
 ```
 
-**2.** With Pure JavaScript
+**2.** Pure JavaScript
 
 ```js
 <img id="responsive-image" src="local/image.png" />
