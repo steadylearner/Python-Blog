@@ -1,7 +1,7 @@
 <!--
     Post{
         subtitle: "Learn how to use gRPC with Rust Tonic and Postgresql"
-        image: "https://raw.githubusercontent.com/hyperium/tonic/master/.github/assets/tonic-banner.svg?sanitize=true",
+        image: "posts/web/tonic.png",
         image_decription: "Image from the official website",
         tags: "gRPC Tonic Rust How",
     }
