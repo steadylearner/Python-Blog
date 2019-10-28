@@ -39,6 +39,7 @@
 [Scrapy]: https://scrapy.org/
 [Scrapy Tutorial]: https://docs.scrapy.org/en/latest/intro/tutorial.html
 [Scrapy CLI]: https://docs.scrapy.org/en/latest/topics/commands.html
+[scrapy-examples]: https://github.com/steadylearner/scrapy-examples
 [How to use selectors with Scrapy]: https://docs.scrapy.org/en/latest/topics/selectors.html
 
 [How to make ssh]: https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/create-with-openssh/
@@ -75,7 +76,7 @@ I want you already have experience with Python. It will be helpful for you to sp
 
 ---
 
-You can skip **1.** if you already have own Scrapy development environment.
+You can skip **1.** if you already have own Scrapy development environment. If you just want the results, please refer to the [scrapy-examples] repository.
 
 <br />
 
@@ -101,18 +102,18 @@ You can manually do that everytime but making alias for it will be better. Use t
 $vim ~/.bashrc
 ```
 
-and include the code similar to this.
+Then, include the code similar to this.
 
 ```console
 // .bashrc
 alias usescrapy="source /home/youraccount/Desktop/code/scrapy/bin/activate"
 ```
 
-You should find the equivalnet part of **/home/youraccount/Desktop/code/** with **$pwd** command if you want use this.
+You should find the equivalnet part of **/home/youraccount/Desktop/code/** with **$pwd** command if you want to use this.
 
-Then, **$source ~/.bashrc** and you can use this Python development environment with **$usescrapy** only.
+Then, **$source ~/.bashrc** and you can use this Python development environment with **$usescrapy** only whenever you want.
 
-If you made it all work, type **$usescrapy** and **$pip install ipython scrapy** to install the minimal dependencies we will use for this post. If you are familiar with Python or other programming langauges, you may use them to automate the process.
+If you made it all work, type **$usescrapy** and **$pip install ipython scrapy** to install the minimal dependencies we will use for this post. If you are familiar with Python or other programming langauges, you may use them to automate the whole process.
 
 If you like the Python dependencies and reuse the exactly same ones later, use these commands.
 
@@ -139,11 +140,9 @@ Inspect **This week in Rust $Number of publication** part. Then, you will find m
 <a href="https://this-week-in-rust.org/blog/this-week-in-rust/">This Week in Rust</a>
 ```
 
-Collecting them is the main job for Scrapy for this page and we will write Python Scrapy code for it later.
+Collecting those links to follow will be our main job for this page. We will write Python Scrapy code for it later.
 
-With this, we have the links to publication pages that are payloads of this scrapy project with blog posts and jobs
-
-Visit one of them. When you inspect it, you will see that they have similar strcuture similar to this.
+Visit one of them. When you inspect posts, jobs parts and other parts you want to scrap, you will see that they have similar strcuture similar to this.
 
 ```html
 <h1></h1>
@@ -154,7 +153,7 @@ Visit one of them. When you inspect it, you will see that they have similar strc
 </ul>
 ```
 
-Our main target will be **href**. It is the part of **a** tag that are wrapped with **li** and its parent element **ul**. The **ul** is also followed by **h1** or **h2** tags that will facilitate finding those **href** parts with Scrapy later.
+Our main target will be **href** to help you get to the useful blog posts and job vacancies. It is the part of **a** tag that are wrapped with **li** and its parent element **ul**. You can see that **ul** is also followed by **h1** or **h2** tags. This will facilitate finding those **href** parts with Scrapy later.
 
 <br />
 
@@ -168,7 +167,7 @@ Before that, use shell command from [Scrapy CLI] to test how Scrapy programm wil
 $scrapy shell https://this-week-in-rust.org
 ```
 
-Use your target websites instead if you have. After this , the console will become the Ipython mode with information similar to this.
+Use your target websites instead if you have. After this, the console will become the Ipython mode with information similar to this.
 
 ```console
 [s] Available Scrapy objects:
@@ -186,7 +185,7 @@ Use your target websites instead if you have. After this , the console will beco
 [s]   view(response)    View response in a browser
 ```
 
-Then, **$view(response)** first to verify that the target website is can be read by Scrapy. For example, if the website is rendered with JavaScript, it may not work well and you should find more documentation for that.
+Then, **$view(response)** first to verify your target websites can be read by Scrapy. For example, if the website is rendered with JavaScript, it may not work well and you should [find more documentation][Scrapy] for that.
 
 With [Rust notification website], there was no problem because it is just a normal static website.
 
@@ -194,7 +193,7 @@ You can play with Scrapy shell mode with request, response etc. Then, exit it an
 
 **$scrapy startproject steadylearner steadylearner**. You can use **$scrapy startproject -h** for more information.
 
-It will automatically generate scrapy project folder with **steaylearner** in your folder and show this message in your console.
+It will automatically generate scrapy project folder with **steaylearner** and show message similar to this in your console.
 
 ```console
 cd steadylearner
@@ -203,11 +202,9 @@ scrapy genspider example example.com
 
 Follow the instruction and use command similar to **$scrapy genspider rust_notification this-week-in-rust.org/**.
 
-It should have created **spiders/rust_notification.py** Python code(spider) in your machine.
+It should have created **spiders/rust_notification.py** Python code(spider) in your machine. You can see that Python **Scrapy** framework does most of jobs instead of you.
 
-You can see that Python **Scrapy** framework does most of jobs instead of you.
-
-The prepartion process is almost end and we will write code for the spider(rust_notification.py) we made. Use your code editor and edit it similar to this.
+The prepartion process ends. We will write code for the spider(rust_notification.py) we made. Use your code editor and edit it similar to this.
 
 ```python
 # rust_notification.py
@@ -293,9 +290,9 @@ Use it with **$python sort_json.py test.json** and it will organize the JSON fil
 
 ## 4. Conclusion
 
-In this post, we learnt how to use Python [Scrapy]. If you followed this post well, what you need later will be just use **$scrapy genspider** and edit the Python file(spier) made from it.
+In this post, we learnt how to use Python [Scrapy]. If you followed this post well, what you need later will be just use **$scrapy genspider** and edit the Python file(spider) made from it.
 
-We will have more Python Scrapy spiders and blog posts for them. If you just want the results, please refer to the [Scrapy-Examples] repository.
+We will have more Python Scrapy spiders and blog posts for them. If you just want the results, please refer to the [scrapy-examples] repository.
 
 I am a full stack developer and use [Rust][Rust Full Stack], **Python**, **JavaScript** etc. I can also help you with **Docker** and **AWS** etc to deploy your project.
 
