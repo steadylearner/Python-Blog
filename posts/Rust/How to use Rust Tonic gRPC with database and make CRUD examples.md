@@ -1,6 +1,6 @@
 <!--
     Post{
-        subtitle: "Learn how to use gRPC with Rust Tonic and Postgresql"
+        subtitle: "Learn how to use Rust Tonic with Postgresql"
         image: "posts/web/tonic.png",
         image_decription: "Image from the official website",
         tags: "gRPC Tonic Rust How",
