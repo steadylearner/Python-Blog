@@ -96,7 +96,7 @@
 
 <!-- Steadylearner Twitter and LinkedIn  -->
 
-v: https://twitter.com/steadylearner_p
+[Twitter]: https://twitter.com/steadylearner_p
 [LinkedIn]: https://www.linkedin.com/in/steady-learner-3151b7164/
 
 <!--  -->
@@ -846,7 +846,7 @@ Refer to the request examples I let it here if you want to test it with the same
   "last_name": "learner",
   "date_of_birth": "%Y-%m-%d"
 }
-``
+```
 
 ### UpdateUser
 
