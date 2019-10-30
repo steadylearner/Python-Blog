@@ -6,7 +6,7 @@ import subprocess as cmd
 
 # print(cp) if you want to inspect the process
 
-cp = cmd.run("pip freeze > requirements.txt", check=True, shell=True)
+# cp = cmd.run("pip freeze > requirements.txt", check=True, shell=True)
 # print("Renew requirements.txt before commit this prsoject automatically to GitHub.\n")
 
 # Then, you can install all the dependencies used for this project with
