@@ -1,8 +1,8 @@
 <!--
   Post {
-    subtitle: "Learn how to use babel-cli to make your JavaScript code compatible with old browsers.",
+    subtitle: "Learn how to use babel-cli",
     image:  "/code/Babel.png",
-    image_decription: "Babel Image from the website",
+    image_decription: "Image from the official website",
     tags: "Babel JavaScript es5 es6+",
   } 
 -->
