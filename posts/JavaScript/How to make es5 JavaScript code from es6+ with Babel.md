@@ -10,13 +10,7 @@
 <!-- Link -->
 
 [Steadylearner]: https://www.steadylearner.com
-[Steadylearner Github Repository]: https://github.com/steadylearner/Steadylearner
 [React Official Website]: https://reactjs.org/
-[React Hook API]: https://reactjs.org/docs/hooks-intro.html
-[React Spring]: https://react-spring.surge.sh/
-[Github Repository for React Marked Markdown]: https://github.com/vincent-p/react-marked-markdown#readme
-[React Markdown Improved]: https://codesandbox.io/s/wz9pp1xpn8
-[How to use markdown]: https://www.markdowntutorial.com/
 [How to use JavaScript]: https://developer.mozilla.org/en/docs/Web/JavaScript
 [How to use NPM]: https://docs.npmjs.com/about-npm/
 [How to use Babel]: https://babeljs.io/en/setup#installation
@@ -42,11 +36,11 @@
 
 <!-- Write code for Rust CLI to read the data from the github with conditional statements and remove this comment -->
 
-We already have setup JavaScript and React test envrionement at [How to setup Jest to test JavaScript Code][How to setup Jest to test JavaScript Code] and [How to setup Jest with Enzyme to test React Code][How to setup Jest with Enzyme to test React Code]. We are almost there to make [NPM packages to render Markdown][How to write less code for links in markdown with React]  without `null` title.
+We already have setup JavaScript and React test envrionement at [How to setup Jest to test JavaScript Code][How to setup Jest to test JavaScript Code] and [How to setup Jest with Enzyme to test React Code].
 
-Before that, we should learn how to turn our **es6+ JavaScript** into **es5** and before to make it compatible with the older browsers and not to break the programm when used inside them.
+In this post, we will learn how to turn our **es6+ JavaScript** into **es5**. It will hep you make your JavaScript codes compatible with the older browsers and not to break the programm when used inside them.
 
-The process will be easy and maybe helpful for those who don't have much experience with this topic and also be a starting point for someone who wants to start use [Babel][How to use Babel] and to understand what it does.
+The process will be a starting point for someone who wants to start use [Babel][How to use Babel].
 
 <br />
 
@@ -59,9 +53,11 @@ The process will be easy and maybe helpful for those who don't have much experie
 5. [Steadylearner Github Repository][Steadylearner Github Repository]
 ---
 
-You should know how to use **JavaScript** and **NPM** to donwload packages from it. In this post, what we will do is to follow the instruction from [the offical site of Babel][How to use Babel] and apply it to the codes from [How to setup Jest with Enzyme to test React Code][How to setup Jest with Enzyme to test React Code]. 
+You should know how to use **JavaScript** and **NPM** to donwload packages from it. Follow the instruction from [the offical site of Babel][How to use Babel] and apply it to the codes from [How to setup Jest with Enzyme to test React Code]. 
 
-You may visit the [Steadylearner Github Repository][Steadylearner Github Repository] if you want to read the source code for this post first.
+You may visit the [Steadylearner Github Repository] if you want to read the source code for this post first.
+
+If you simply want to test how Babel works, use [Babel REPL] first. 
 
 <br />
 
@@ -77,23 +73,21 @@ You may visit the [Steadylearner Github Repository][Steadylearner Github Reposit
 
 ## 1. Packages from Babel to turn es6+ code into es5
 
-I hope you already read [How to setup Jest with Enzyme to test React Code][How to setup Jest with Enzyme to test React Code] and have the project ready for this post. But there will be no problem using your own project.
+I hope you already read [How to setup Jest with Enzyme to test React Code] and have the project ready for this post. Then, follow the instruction from the official site of [Babel][How to use Babel].
 
-From now on, we will follow the instruction from the official site of [Babel][How to use Babel].
-
-First we will install some packages with command below
+First, we will install some packages with the commands below
 
 ```js
 // 1. 
 $npm install --save-dev @babel/core @babel/cli
 // 2.
-$yarb add @babel/core @babel/cli --dev
+$yarn add @babel/core @babel/cli --dev
 ```
 
-1. You may use npm to install the packages for it is recommended way to install them
-2. You can also use yarn to install the packages if you already have the proejct with yarn for this post.
+1. Use npm to install the packages for it is recommended way to install them
+2. Yarn to install the packages if you already have the proejct with yarn for this post.
 
-After that you will see your **package.json** similar to the code snippet below
+Then, your **package.json** will be similar to this.
 
 ```json
 "devDependencies": {
@@ -108,15 +102,14 @@ After that you will see your **package.json** similar to the code snippet below
   "jest": "^24.5.0"
 },
 ```
-The important point here is to verfiy **@babel/cli** included here.
 
-Then, we will include the command below to use with **npm** or **yarn** command later inside **package.json**
+You should verfiy **@babel/cli** included here. Then, include this below to use with **npm** or **yarn** command later inside **package.json**
 
-```
+```json
 "build": "babel src -d lib"
 ```
 
-After those processes, Your **package.json** would be similar to the one below.
+Then, Your entire **package.json** would be similar to the one below.
 
 ```json
 {
@@ -141,15 +134,16 @@ After those processes, Your **package.json** would be similar to the one below.
   }
 }
 ```
-For we are ready to turn our **es6+** code into **es5 and before**. We will test it with example codes before to test it really work or not. You can use it with your own code also.
 
-If you want to see the entire example for this post, you can visit [Steadylearner Github Repository][Steadylearner Github Repository].
+We are ready to turn our **es6+** code into **es5 and before**. We will test it with example codes to test it really work or not. You can use it with yours also.
+
+If you want to see the entire example for this post, you can visit [Steadylearner Github Repository].
 
 <br />
 
 ## 2. How to test it with es6+ code
 
-We prepared all the necessary files before. It is time to test it with real codes. For this post, we will use the code snippet used for [How to setup Jest with Enzyme to test React Code][How to setup Jest with Enzyme to test React Code].
+We prepared all the necessary files. It is time to test them. For this post, we will use the code snippet used for [How to setup Jest with Enzyme to test React Code].
 
 ```jsx
 // /src/CheckBoxWithLabel.js
@@ -179,17 +173,20 @@ export default class CheckboxWithLabel extends React.Component {
   }
 }      
 ```
-The code snippet is not complicated and it will be useful to verify the result **es5** code from the process we will do later.
 
-In the previous part, we defiined `"build": "babel src -d build"` to use babel with **npm** or **yarn** easily. If you read [the documentation][How to use Babel], you should have found that it will turn every **.js** files in **src** directory to **es5+ and before** and will save them to **lib** directory.
+It will be used to verify the result **es5** code from the process.
+
+In the previous part, we defiined `"build": "babel src -d build"` to use babel with **npm** or **yarn**. 
+
+If you read [the documentation][How to use Babel], you should have learnt it will turn every **.js** files in **src** directory to **es5+ and before** and will save them to **lib** directory.
 
 We can use either **npm** or **yarn** to verify it with the command below in your **CLI**.
 
-```
+```console
 $yarn build or $npm run build
 ```
 
-After that, you will see the code snippet similar to the one below
+Then, you will see the es5 code similar to this.
 ```js
 // /lib/CheckBoxWithLabel.js
 // compatible with es5 and before
@@ -271,21 +268,16 @@ function (_React$Component) {
 
 exports.default = CheckboxWithLabel;
 ```
-It is compatible with the older browser and you can use it instead of its **es6+** version. It will be useful if you want to make some **NPM** packages to share your **es6+** code with others.
+
+With this process, your JavaScript codes will be compatible with the older browsers. You can use them instead of their equivalent **es6+** version codes.
 
 <br /> 
 
 ## 3. Conclusion
 
-It wouldn't be difficult to follow this post for it is just repeating the process decribed in [How to use Babel][How to use Babel] and applied to the real project we used [in the previous post][How to setup Jest with Enzyme to test React Code].
+I hope you made it. It just repeats the process described in [How to use Babel]. Then, we apply it to the project we used in [How to setup Jest with Enzyme to test React Code].
 
-Before I write this post, I thought that it wouldn't be easy to setup the development environment to turn **es6+** code into **es5** and before and used [Test Babel page][Babel REPL] for that. 
-
-It is very easy for what you need to do is just copy and paste. But it wouldn't be right if you have to convert many **es6+ JavaScript** files to **es5** version to share them with others.
-
-By following this post, you won''t need to do that anymore. What we have to do is just type `$yarn build` or `npm run build` inside your project and that is all to have **es5** code to use.
-
-I hope this post helpful and if there was any problem, you can always refer to the official documentation at [Babel][How to use Babel] or [Steadylearner Github Repository][Steadylearner Github Repository].
+Save your es6+ codes in **src** and use`$yarn build` or `npm run build` and it will make **es5**  code in **lib**.
 
 **Thanks and please share this post with others**.
 
