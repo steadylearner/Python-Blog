@@ -281,7 +281,9 @@ test("GET /hello with async", async done => {
 });
 ```
 
-I hope you already read the documenation for [Test] and [Supertest]. The important parts here will be **.get**, **expect** and **assert.strictEqual** relevant codes. We convert what we did at the end of the previous part to the JavaScript code here with them.
+I hope you already read the documenation for [Tape] and [Supertest]. 
+
+The important parts here will be **.get**, **expect** and **assert.strictEqual** relevant codes. We convert what we did at the end of the previous part to the JavaScript code here with them.
 
 You can also verify that we can use either **Promise** or **async await** syntax with them. The first example I could find was with Promise. I made **async await** example also for this post. It won't take more than a minute to convert code between them.
 

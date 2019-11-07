@@ -50,7 +50,7 @@ The process will be a starting point for someone who wants to start use [Babel][
 2. [How to use NPM][How to use NPM]
 3. [How to use Babel][How to use Babel]
 4. [How to setup Jest with Enzyme to test React Code][How to setup Jest with Enzyme to test React Code]
-5. [Steadylearner Github Repository][Steadylearner Github Repository]
+
 ---
 
 You should know how to use **JavaScript** and **NPM** to donwload packages from it. Follow the instruction from [the offical site of Babel][How to use Babel] and apply it to the codes from [How to setup Jest with Enzyme to test React Code]. 
