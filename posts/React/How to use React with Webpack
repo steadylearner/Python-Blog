@@ -1,7 +1,7 @@
 <!--
   Post {
     subtitle: "Set up React Project with Webpack and React Router.",
-    image:  "/code/react-router.png",
+    image:  "/post/React/user-signup.png",
     image_decription: "Image from the official website",
     tags: "How React Webpack",
   }
