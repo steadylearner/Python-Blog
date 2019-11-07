@@ -3,7 +3,7 @@
     subtitle: "Set up React Project with Webpack and React Router.",
     image:  "/post/React/user-signup.png",
     image_decription: "Image from the official website",
-    tags: "How React Webpack",
+    tags: "How React Webpack code",
   }
 -->
 
