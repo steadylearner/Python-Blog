@@ -1,7 +1,7 @@
 <!--
   Post {
     subtitle: "Set up React Project with Webpack and React Router.",
-    image:  "/post/React/user-signup.png",
+    image:  "/code/webpack.png",
     image_decription: "Image from the official website",
     tags: "How React Webpack code",
   }
@@ -20,13 +20,18 @@
 [How to setup Enzyme for beginners]: https://airbnb.io/enzyme/
 [React Rust]: https://github.com/steadylearner/React-Rust
 [React blog posts]: https://www.steadylearner.com/blog/search/React
+<!-- https://webpack.js.org/branding/ -->
 [Webpack]: https://webpack.js.org/
 [React]: https://reactjs.org/
-[React Rotuer]: https://reacttraining.com/react-router/web/guides/quick-start
+[React Router]: https://reacttraining.com/react-router/web/guides/quick-start
 [CRA]: https://github.com/facebook/create-react-app
 [Yarn]: https://yarnpkg.com/lang/en/
 [nvm]: https://github.com/nvm-sh/nvm
 [node-sass]: https://github.com/sass/node-sass
+[Formik]: https://github.com/jaredpalmer/formik
+[Yup]: https://github.com/jquense/yup
+[React Rust]: https://github.com/steadylearner/React-Rust
+[React Text Mask]: https://www.npmjs.com/package/react-text-mask
 
 <!-- / -->
 
@@ -46,11 +51,20 @@
 
 <!-- / -->
 
+<!-- Steadylearner Twitter and LinkedIn  -->
+
+[Twitter]: https://twitter.com/steadylearner_p
+[LinkedIn]: https://www.linkedin.com/in/steady-learner-3151b7164/
+
+<!-- / -->
+
 <!-- Write code for Rust CLI to read the data from the github with conditional statements and remove this comment -->
 
 In this post, we will learn how to use [Webpack] to build a [React] project with [React Router]. It will help you find the project the later [React blog posts].
 
-If you want a complete project first, please clone [React Rust] and follow the instruction there. It will be similar to this.
+If you want a complete project first, please clone [React Rust] and follow the instruction there. The result will be similar to this.
+
+[![user-signup](https://www.steadylearner.com/static/images//post/React/user-signup.png)][React Rust]
 
 <br />
 
@@ -59,6 +73,7 @@ If you want a complete project first, please clone [React Rust] and follow the i
 1. JavaScript, NPM or [Yarn]
 2. React
 3. How to make es5 JavaScript code from es6+ with Babel
+4. [React Router] example
 
 ---
 
@@ -68,11 +83,14 @@ I will use Yarn commands for this post. You can use equivalent NPM commands if y
 
 If you find the exmaple difficult and just want to have React code used for [the project][React Rust], you can also use [CRA];
 
-The webpack configruation(webpack.cofig.js) of this post is very similar to what used at [Steaylearner].
+The webpack configruation(webpack.cofig.js) of this post is very similar to what used at [Steadylearner].
 
 I will use these posts for React to update the site also. So **package.json** in [React Rust] will be updated along with them. Thefore, If you think the content of the post is outdated, please refer to [the repository][React Rust].
 
 This is the following post of [How to make es5 JavaScript code from es6+ with Babel]. If you are not familar to [Babel] yet, you may refer to the post first.
+
+Read [React Router] example documenation also.
+
 
 <br />
 
@@ -80,7 +98,7 @@ This is the following post of [How to make es5 JavaScript code from es6+ with Ba
 
 1. Install dependencies
 2. Set up **Webpack** with **Babel**
-3. Include files to write React codes
+3. Start your project with **React Router**
 4. Conclusion
 
 ---
@@ -213,6 +231,8 @@ It has many dependencies but we will learn how to use most of them with later [R
 Then, install NPM pacakges with **$yarn**. You can see that **node 12.3.1** is used here. This is to be compatible with **node-sass** verison of this package.json file.
 
 You may update the package and Node with [nvm] and test it work or not later if you want.
+
+<br />
 
 ## 2. Set up Webpack with Babel
 
@@ -463,11 +483,13 @@ You can remove it and others after you read the documentations for them well.
 
 <br />
 
-## 3. Build a project with **React Router**
+## 3. Start your project with React Routerr
 
 We prepared all the configuration files. If you have already visited [React Rust] repository. you will find that it has many files.
 
-We won't hanlde every details of them. Build a **src** folder to include the files for our React project. The main folders will be similar to this.
+We won't hanlde every details of them because normally Webpack and other configuration files relevant to it will be sufficient to start your React project.
+
+Build a **src** folder to include the files for our React project. The main folders will be similar to this.
 
 ```console
 ├── App.js
