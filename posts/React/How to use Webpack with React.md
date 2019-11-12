@@ -60,11 +60,13 @@
 
 <!-- Write code for Rust CLI to read the data from the github with conditional statements and remove this comment -->
 
-In this post, we will learn how to use [Webpack] to build a [React] project with [React Router]. It will help you find the project the later [React blog posts].
+In this post, we will learn how to use [Webpack] to build a [React] project with [React Router].
 
 If you want a complete project first, please clone [React Rust] and follow the instruction there. The result will be similar to this.
 
 [![user-signup](https://www.steadylearner.com/static/images//post/React/user-signup.png)][React Rust]
+
+If you made it work, just take parts you will use from it.
 
 <br />
 
@@ -77,20 +79,19 @@ If you want a complete project first, please clone [React Rust] and follow the i
 
 ---
 
-You should know how to use **JavaScript** and **NPM** to download the packages used here from it. I hope you are also already familar with [React].
+You should know how to use **JavaScript** and **NPM** to download the packages used here. I hope you are also already familar with [React].
 
-I will use Yarn commands for this post. You can use equivalent NPM commands if you don't use it.
+I will use Yarn commands for this post. You can use equivalent NPM commands otherwise.
 
-If you find the exmaple difficult and just want to have React code used for [the project][React Rust], you can also use [CRA];
+If you find the exmaple difficult and just want to have React code used for [the project][React Rust], you can also use [CRA].
 
 The webpack configruation(webpack.cofig.js) of this post is very similar to what used at [Steadylearner].
 
-I will use these posts for React to update the site also. So **package.json** in [React Rust] will be updated along with them. Thefore, If you think the content of the post is outdated, please refer to [the repository][React Rust].
+I will use these [React blog posts] to update the website also. So **package.json** in [React Rust] will be updated along with them. Therefore, If you think the content of the post is outdated, please refer to [the repository][React Rust].
 
-This is the following post of [How to make es5 JavaScript code from es6+ with Babel]. If you are not familar to [Babel] yet, you may refer to the post first.
+This is the following post of [How to make es5 JavaScript code from es6+ with Babel]. If you are not familar with it yet, refer to the post first.
 
-Read [React Router] example documenation also.
-
+Read [React Router] example documentation also.
 
 <br />
 
@@ -226,11 +227,11 @@ We will first install dependencies with **package.json**. It will be similar to 
 }
 ```
 
-It has many dependencies but we will learn how to use most of them with later [React blog posts]. If you find it complicated, please refer to a whole project at [React Rust] and experiment it with **$yanr start** first.
+It has many dependencies but we will learn how to use most of them later with more [React blog posts]. If you find it complicated, refer to a whole project at [React Rust] and experiment it with the instruction there.
 
-Then, install NPM pacakges with **$yarn**. You can see that **node 12.3.1** is used here. This is to be compatible with **node-sass** verison of this package.json file.
+You can see that **node 12.3.1** is used here. This is to be compatible with **node-sass** verison of this package.json file.
 
-You may update the package and Node with [nvm] and test it work or not later if you want.
+You may update the package and Node with [nvm] and test it. Otherwise, rename index.scss in project and remove the package. It is just to show scss work.
 
 <br />
 
@@ -238,7 +239,7 @@ You may update the package and Node with [nvm] and test it work or not later if 
 
 We already installed the dependencies to use Webpack. In the previous part, we also needed to install Babel packages to help Webpack make es6+ JavaScript code with them.
 
-We will make **.babelrc** first. It will be similar to this and you can delete what you wouldn't use later.
+We will make **.babelrc** first. It will be similar to this and you can delete what you won't use later.
 
 ```json
 {
@@ -281,7 +282,7 @@ We will make **.babelrc** first. It will be similar to this and you can delete w
 
 Then, we are ready to use our **webpack.config.js**. It will be similar to the code snippet below.
 
-Finding the working Webpack configuration will not be easy. So verify the project compile first and read the documentations for them.
+**Finding the working Webpack configuration is not easy**. So verify the project compile first and read the documentations for each of them thoroughly.
 
 ```js
 const webpack = require("webpack");
@@ -296,8 +297,8 @@ const TerserPlugin = require("terser-webpack-plugin"); // Use it instead of ugli
 
 // https://webpack.js.org/guides/environment-variables/
 module.exports = (e) => {
-  // console.log(env);
-  // console.log("PAYLOAD", env.cypress);
+  // console.log(e);
+  // console.log("PAYLOAD", e.cypress);
 
   const minimizer = [
     new TerserPlugin(),
@@ -450,9 +451,9 @@ module.exports = (e) => {
 };
 ```
 
-With this configuration, you can use React, SCSS, images or almost all the things available in [Steadylearner].
+With this configuration, you can use React, SCSS, images and almost all the things available in [Steadylearner].
 
-We will learn how to use Cypress in the later [React blog posts]. We need the code snippet similar to this for that.
+[We will learn how to use Cypress](https://www.steadylearner.com/blog/read/How-to-use-Cypress-with-React) later. We need the code snippet similar to this for that.
 
 ```js
 const minimizer = [
@@ -479,15 +480,15 @@ if (e !== undefined && e.cypress === true) {
 
 It will help you to use commands **start** and **start:cypress** in **package.json** separately. We need this because Cypress doesn't work well with split JavaScript files made from **splitChunks** part above.
 
-You can remove it and others after you read the documentations for them well.
+You can remove it if you don't want to use Cypress.
 
 <br />
 
-## 3. Start your project with React Routerr
+## 3. Start your project with React Router
 
 We prepared all the configuration files. If you have already visited [React Rust] repository. you will find that it has many files.
 
-We won't hanlde every details of them because normally Webpack and other configuration files relevant to it will be sufficient to start your React project.
+We won't handle every details of them. Normally, what you want would be Webpack and its relevant configuration files.
 
 Build a **src** folder to include the files for our React project. The main folders will be similar to this.
 
@@ -500,9 +501,9 @@ Build a **src** folder to include the files for our React project. The main fold
 ├── main.scss
 ```
 
-You can use your CSS framework files here instead of **main.scss**. **.scss** exetension is used here just to show the extension can be used with this project.
+You can use your CSS framework files here instead of **main.scss**.
 
-In **index.html**, its payload will be this.
+In **index.html**, its payload will be this. It is the entry point of your app.
 
 ```html
 <body>
@@ -510,14 +511,12 @@ In **index.html**, its payload will be this.
 </body>
 ```
 
-to find the html file inside App.js
+It is used to find it inside App.js
 
 ```jsx
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import App from "./components";
-
-// const App = () => <ReduxRouter store={store} history={history} />;
 
 const app = document.getElementById("app");
 
@@ -533,9 +532,11 @@ You could also include image files in **images** folder. Then, you can use path 
 
 When you set up all of this, we can finally write the React codes relevant to your project. Move to the **components** folder.
 
-If you already cloned [React Rust] repository, there will be **index.js**, **Main.js** and others. The structure was imporved from the code at [React Rotuer] example. Compare it with the **index.js**, **Main.js**, **TopNav/** used in this project. They are just more modulized version of it.
+If you already cloned [React Rust] repository, there will be **index.js**, **Main.js** and others. The structure was imporved from the code at [React Rotuer] example. Compare it with the **index.js**, **Main.js**, **TopNav/** used in this project.
 
-**index.js** will be similar to this.
+They are just more modulized version of it.
+
+**index.js** will be similar to this. You could also test it work with a single monolithic file from [React Rotuer] or whatever you can find in the internet first.
 
 ```js
 import React from "react";
@@ -560,9 +561,9 @@ export default function Root() {
 }
 ```
 
-It will used to represent the total layout of your React Project.
+It will be used to represent the total layout of your React Project.
 
-Then, most of your React code sould be in **Main.js**.
+Then, most of your React code should be in **Main.js**.
 
 ```js
 import React, { Suspense } from "react";
@@ -614,13 +615,13 @@ If you could make it work, you can start your React project by modifying **path*
 
 ## 3. Conclusion
 
-I hope you made it work. It has been a long time when I made these configuration files. So I wanted to make a simple post to explain how they are made and imporve it later also with updated contents.
+I hope you made it work. It has been a long time after I made these configuration files. So I wanted to make a simple post to explain the workflow to make it work.
 
 In the later [React blog posts], we will learn how to use a [Formik], [Yup] and [React Text Mask] etc. You will learn how to make a decent React form example with them.
 
 If you want the latest contents from Steadylearner, follow me at [Twitter] or star [React Rust].
 
-Do you need **a Full Stack React Developer**? Contact me with [LinkedIn] or [Twitter] and I will help you.
+Do you need **a Full Stack Developer**? Contact me with [LinkedIn] or [Twitter] and I will help you.
 
 You can invite me to work with your team. I can learn fast if there is a reason for that.
 

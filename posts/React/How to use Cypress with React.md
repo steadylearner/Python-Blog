@@ -1,7 +1,7 @@
 <!--
   Post {
     subtitle: "Set up Cypress and test it with your project.",
-    image:  "/code/Cypress.png",
+    image:  "/code/cypress.png",
     image_decription: "Image from the official website",
     tags: "How Cypress React use",
   }
@@ -60,26 +60,17 @@
 
 In this post, we will learn how to set up [Cypress] project. Then, we will test it with the [React] project at [React Rust] GitHub repository.
 
-Please, clone the repository first. It will be similar to this.
+Please, clone the repository first and follow the instruction there.
+
+It will be similar to this.
 
 [![user-signup](https://www.steadylearner.com/static/images//post/React/user-signup.png)][React Rust]
-
-You can test it easily with this commands.
-
-```console
-$nvm install 12.3.1
-$nvm use 12.3.1
-$yarn
-$yarn start
-```
 
 You should use **$yarn start:cypress** when you want to test it with **Cypress** later.
 
 (The project used here is with Webpack split chunk API and I could find it is not so compatible with **Cypress** and made a separate commands at package.json and configurations at webpack.config.js.)
 
-You can also use yours instead. Only modify **"baseUrl": "http://localhost:8080"** used to learn webpack development server in pat **cypress.json** in your project.
-
-You can see that **cypress** packages are already included in the [React Rust] project. Refer to this post and make your own Cypress folder in your project later.
+You can also use yours instead. Only modify **baseUrl** part used for webpack development server in **cypress.json**.
 
 <br />
 
@@ -91,7 +82,9 @@ You can see that **cypress** packages are already included in the [React Rust] p
 
 ---
 
-You should know how to use **JavaScript** and **NPM** to download the packages used here from it. I hope you are already familar with [React] because the example project is built with it. But, it is not requirements. Use site you want if what you want is just to learn Cypress.
+You should know how to use **JavaScript** and **NPM** to download the packages used here from it.
+
+I hope you are already familar with [React] because the example project is built with it. But, it is not requirements. Use site you want if what you want is just to learn Cypress.
 
 [The project is built with Webpack to use React][How to use Webpack with React]. You can also use the project made with [CRA] or whatever project with other frameworks or website you want.
 
@@ -189,9 +182,9 @@ end_to_end_test
       index.js
 ```
 
-There are many files but we don't need to learn how to use all of them. If you made it all work, click one of the test given by the Cypress authors.
+There are many files but we don't need to learn how to use all of them. If you made it all work, click one of the tests by its authors.
 
-[![user-signup](https://www.steadylearner.com/static/images//post/React/user-signup.png)][React Rust]
+[![user-signup](https://www.steadylearner.com/static/images//post/React/cypress-examples.png)][React Rust]
 
 You can start with **local_storage.spec.js**. The main part of the [React Rust] project we will use for this post was **localStorage** API.
 
@@ -207,7 +200,7 @@ cy.get('.ls-btn').click().should(() => {
 
 ## 2. Configure your project
 
-We already verified **Cypress** work in our machine with a few examples. Before we write our own tests, we will configure app to make it more useful for beginners.
+We already verified **Cypress** work in our machine with a few examples. Before we write our own tests, we will configure app to make it more usable for beginners.
 
 We will start by editing **cypress.json**. It will be an empty object at this point.
 
@@ -222,7 +215,7 @@ You won't want to save video files and slow your tests. It will be only useful w
 
 The baseUrl will be the location your server use or website. Use what you want.
 
-Then, edit **cypress/plugins/index.js** with this.
+Then, edit **cypress/plugins/index.js** with this. You can omit this process if you want to delete the examples.
 
 ```js
 // ***********************************************************
@@ -248,9 +241,9 @@ For we just started using Cypress, it will be better to keep the examples. But, 
 
 When you use Cypress again with **yarn cypress:open**. It will be similar to this without examples.
 
-[![user-signup](https://www.steadylearner.com/static/images//post/React/user-signup.png)][React Rust]
+[![user-signup](https://www.steadylearner.com/static/images//post/React/cypress-without-examples.png)][React Rust]
 
-You can omit this process if you want to delete them.
+<br />
 
 ## 3. Build your own test
 
@@ -304,7 +297,7 @@ describe("Test SignUp page at /", () => {
     // 5.
     cy.visit("/user");
     cy.get(".user-list").click().wait(2000);
-        cy.screenshot();
+    cy.screenshot();
     cy.get(".user-list__remove").click().should(() => {
       const users = JSON.parse(localStorage.getItem("users"));
       const { payload } = users;
@@ -325,19 +318,21 @@ Nothing complicated here. If you used Jest or other frameworks, you will find it
 
 The purpose of the project is to save user data at localStorage with **SignUp** API and show that in **/user** page. Then, one can see the list of them and remove them there also.
 
-The test file above is just to turn these behaviors to **Cypress JavaScript code**. The important parts are these.
+The test file above is just to turn these behaviors to **Cypress JavaScript code**. 
 
-1. First, we clear the localStorage to make it retestable everytime.
-2. We prepare data and expected results.
-3. Visit the page and type datas programmatically.
-4. You will want to take screenshot at the process you think important.
-5. Visit another page. We need .wait() API for machines won't wait complete page to show up unlike humans.
+The important parts are these.
+
+1. First, we clear the **localStorage** to make it retestable everytime.
+2. We prepare **input data** and **expected result**.
+3. Visit the page and type data programmatically.
+4. You will want to take **screenshot** at the processes you think important.
+5. Visit another page. We need **wait** API for machines won't wait complete page to show up unlike humans.
 
 You can test this after you make webpack development server ready with **$yarn start:cypress** in another console while your Cypress software is ready at the other console.
 
 Click **usage.spec.js** in your Cypress window and it will show the test similar to this.
 
-[![user-signup](https://www.steadylearner.com/static/images//post/React/user-signup.png)][React Rust]
+[![user-signup](https://www.steadylearner.com/static/images//post/React/cypress-test.png)][React Rust]
 
 If you made it all work, you can verify that screenshots are saved at **/cypress/screenshots/usage.spec.js**.
 
@@ -387,7 +382,9 @@ You can run your test with the command given above.
 $cypress run --record --key yours
 ```
 
-But, it is not easy to use those long words. Save it to **record-video.bash** and use whenever you want with **$./record-video.bash**. You may use it with **$sudo chmod +744 record-video.bash** first if you find authorization relevant problem.
+But, it is not easy to use those long words. Save it to **record-video.bash** and use whenever you want with **$./record-video.bash**.
+
+Make it executable with **$sudo chmod +744 record-video.bash** first if you have a problem with it.
 
 ```bash
 yarn cypress run --record --key yours
@@ -408,13 +405,13 @@ It will show the message simiar to this.
 ```console
  (Video)
 
-  -  Started processing:  Compressing to 32 CRF                                                     
+  -  Started processing:  Compressing to 32 CRF
     Compression progress:  20%
     Compression progress:  45%
     Compression progress:  67%
     Compression progress:  91%
   -  Finished processing: /cypress/videos/   (43 seconds)
-                          usage.spec.js.mp4                                                         
+                          usage.spec.js.mp4
 
 
   (Uploading Results)
@@ -429,21 +426,28 @@ It will show the message simiar to this.
   (Run Finished)
 
 
-       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+       Spec                                              Tests  Passing  Failing  Pending  Skipped
   ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
   │ ✔  usage.spec.js                            00:45        1        1        -        -        - │
   └────────────────────────────────────────────────────────────────────────────────────────────────┘
-    ✔  All specs passed!                        00:45        1        1        -        -        -  
+    ✔  All specs passed!                        00:45        1        1        -        -        -
 
 
 ───────────────────────────────────────────────────────────────────────────────────────────────────────
-                                                                                                       
+
   Recorded Run: https://dashboard.cypress.io/#/projects/yours/runs/1
 ```
 
-You can visit **https://dashboard.cypress.io/#/projects/yours/runs/1** or find it at **cypress/videos/usage.spec.js.mp4.
+You can visit **https://dashboard.cypress.io/#/projects/yours/runs/1** or find it at **cypress/videos/usage.spec.js.mp4**.
 
 Normally, you won't need to record videos and it will make your machine to take more time to test your app. Use it only when it is necessary.
+
+If you care for security and plan to share your project later, make a file such as .gitignore with this included.
+
+```console
+cypress.json
+record-video.bash
+```
 
 <br />
 
