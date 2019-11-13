@@ -1,9 +1,9 @@
 <!--
     Post{
-        subtitle: "Learn how to serve static files with Rust Actix."
-        image: "post/web/react-actix.png",
+        subtitle: "Learn how to dockerize Rust web projects."
+        image: "post/Rust/docker-rust.png",
         image_decription: "Image by Steadylearner",
-        tags: "How React Actix Rust",
+        tags: "How Docker Rust Actix",
     }
 -->
 
@@ -97,6 +97,8 @@
 
 [How to use Webpack with React]: https://www.steadylearner.com/blog/read/How-to-use-Webpack-with-React
 [Actix]: https://github.com/actix/actix-web
+[How to use Docker commands]: https://www.steadylearner.com/blog/read/How-to-use-Docker-commands
+[How to use React with Rust Actix]: https://www.steadylearner.com/blog/read/How-to-use-React-with-Rust-Actix
 
 <!-- / -->
 
@@ -107,84 +109,42 @@
 
 <!--  -->
 
-In this post, we will learn how to use React with Actix. We will make a very simple Actix project that serves React production files. You will find how it is easy to do that.
+In this post, we will learn how to use [Docker][How to use Docker commands] with Rust web frameworks.
 
-If you want the result first, refer to **react-rust** folder in [Rust Full Stack] repository. It will be with Rust Rocket framework example also. 
+We already have [React and Rust server side code] ready for this. It will be similar to this.
 
-For we already learnt how to use it to serve static files with [How to serve static files with Rust] and [How to use a single page app wtih Rust], we won't need the detailed explanation for it. 
+[![user-signup](https://www.steadylearner.com/static/images//post/React/user-signup.png)][React Rust]
 
-Just use **./rocket.bash** file if you want to test it also. You can also use [React Rust] if you want the latest contents.
+Clone the [React Rust] to use it or test with your Rust web projects.
 
 <br />
 
 <h2 class="red-white">[Prerequisite]</h2>
 
-1. React with Webpack
-2. Actix
+1. Docker
+2. Rust
 
 ---
 
-If you haven't installed Rust in your machine, read [How to install Rust]. We will use [React with Webpack][How to use Webpack with React] for this post.
-
-I will assume that you are already familiar with Rust, React and Webpack. Otherwise, please read the documentations for them thoroughly.
-
-You can also use [CRA] or whatever frontend frameworks you want to build static production files. What you will really learn in this post is how to serve static files in **public** folder and **a static file with a route**.
+I will assume that you are already familiar with Docker and Rust. If you haven't used Docker commands yet, please read [How to use Docker commands].
 
 <br />
 
 <h2 class="blue">Table of Contents</h2>
 
-1. Prepare React production files
-2. Set up Actix routes to serve them
-3. Conclusion
+1. Modify Rust project to dockerize
+2. Prepare files to use
+3. Make a Docker image with Dockerfile
+4. Verify the result in your machine
+5. Conclusion
 
 ---
 
 <br />
 
-## 1. Prepare React production files
+## 1. Modify the Rust project to dockerize
 
-I hope you already have static files from React or whatever framework you use. Otherwise, you can use the same files used at  [React Rust].
-
-Clone the repository and use the **./install.bash** file there. Then, **yarn build** to make React production files.
-
-You will see index.html, main.css, main.js, vendors.js etc at **dist/** folder.
-
-When we serve them with Actix, the result will be similar to this.
-
-[![user-signup](https://www.steadylearner.com/static/images//post/React/user-signup.png)][React Rust]
-
-<br />
-
-## 2. Set up Actix routes to serve them
-
-If you have tested the React app already, you will find it has only two routes **/** and **/user** with [React Router] API and images, CSS, and production JavaScript files to help them.
-
-Therefore, the Rust Actix code will be very simple. We just need to learn **how to serve static files** and make two routes for **/** and **/user** in server side to serve the entry point **index.html** when user refreshes the page.
-
-For that, prepare the dependencies with **Cargo.toml** first.
-
-```toml
-[package]
-name = "react_rust_actix"
-version = "0.1.0"
-authors = ["www.steadylearner.com"]
-edition = "2018"
-
-[dependencies]
-actix-web = "1.0.8"
-actix-files = "0.1.6"
-futures = "0.1.29"
-bytes = "0.4.12"
-env_logger = "0.7.1"
-serde = "1.0.101"
-serde_json = "1.0.41"
-serde_derive = "1.0.101"
-json = "0.12.0"
-console = "0.9.0"
-```
-
-Then, write a **src/main.rs** with Actix API. It will be similar to this.
+This is maybe the simplest but most important part to save your time. Verify your server side code. In server/actix/src/main.rs of [React Rust], you can see the code similar to this.
 
 ```rust
 extern crate actix_web;
@@ -199,7 +159,6 @@ use std::path::PathBuf;
 use console::Style;
 
 fn single_page_app() -> Result<fs::NamedFile> {
-    // 1.
     let path: PathBuf = PathBuf::from("./public/index.html");
     Ok(fs::NamedFile::open(path)?)
 }
@@ -210,9 +169,8 @@ pub fn main() {
 
     let blue = Style::new()
         .blue();
-    
-    // 2.
-    let prefix = "0.0.0.0:"; // // Use 0.0.0.0 instead of localhost or 127.0.0.1 to use Actix with docker
+
+    let prefix = "0.0.0.0:";
     let port = 8000; // We will use 80 for aws with env variable.
     let target = format!("{}{}", prefix, port);
 
@@ -221,7 +179,6 @@ pub fn main() {
     HttpServer::new(|| {
         App::new()
             .wrap(middleware::Logger::default())
-            // 3.
             .route("/", web::get().to(single_page_app))
             .route("/user", web::get().to(single_page_app))
             .service(fs::Files::new("/", "./public").index_file("index.html"))
@@ -233,51 +190,164 @@ pub fn main() {
 }
 ```
 
-Little code here but we should learn some important points.
+**Never ever** use **localhost** or **127.0.0.1** etc and only use ports that start with **0.0.0.0.**. This is the same for other web frameworks also.
 
-**1.** You should read the documentation for [PathBuf](https://doc.rust-lang.org/std/path/struct.PathBuf.html). Watch out for where you use **$cargo run --build**. If it were not in the top directory of your project, it won't work.
-
-Use **single_page_app** ,,**react** or whatever you want for the function name. What left will be just to pass it in route API. For it is already the entry point of React production files, you won't need to edit this part anymore.
-
-**2.** Use **0.0.0.0:8000** port to help Actix web synchronize with React production files. It will help you deploy your app easily later with Docker or whatever you will use.
-
-**3.** We already know the React app has **/** and **/user** parts. So define them in server side also to help users can see the pages when they refresh your website.
-
-Then, we use **.service(fs::Files::new("/", "./public").index_file("index.html"))** to [serve every static files](https://docs.rs/actix-files/0.1.7/actix_files/struct.Files.html) in **public** folder at the top level directory. With this Rust Actix API, you don't have to make routes for every static files in it.
-
-The sequence here is important. When you put those routes for **/** and **/user**. It will serve **index.html** from **single_page_app** first before API to serve files in **public**.
-
-If you are curious, you can put **.service(fs::Files::new("/", "./public").index_file("index.html"))** before all other routes and test it(Normally, you won't make files without extensions and won't want to see the errors "there is no files such as **user** in **public** directory").
-
-The **route("/", web::get().to(single_page_app))** part may be optional depending on the framework or language you use for the same purpose. Please, refer to [React Rust]. It has **Express**, **Restify**, **Rocket**, **Actix**, **Vibora**, **Golang** examples etc to help you compare them.
-
-If you haven't yet, test your project with **cargo run --release**. Then, visit **/**, **/user** and refresh the page also. If all worked well, you already have Actix project to serve React single page apps without a problem.
-
-If your project have more routes in frontend like [Steadylearner], just copy and paste the code we have.
-
-```rust
-route("/", web::get().to(single_page_app))
-route("/about", web::get().to(single_page_app))
-route("/code", web::get().to(single_page_app))
-route("/blog", web::get().to(single_page_app))
-```
-
-Just make routes to serve **single_page_app** for every pages you defined in **React** or whatever frontend frameworks.
+The port **8000** is used here to synchronize with React frontend made with Webpack. You can use 80 instead when you want to deploy it to AWS. We will learn how to do that in the later [Rust blog posts]
 
 <br />
 
-## 3. Conclusion
+## 2. Prepare files to use
 
-I hope you made it work. We learnt how to serve static files in **public** folder and **index.html** file for a route in Actix.
+Rust is compiled language. When you use **cargo run --release**, it makes an executable binary file at **target/release/**.
 
-We used React production files to make it more meaningful. You could also use whatever static files for this project.
+Its name will be equal to your project name at **Cargo.toml** and will be **react_actix**.
 
-In the later [Rust blog posts], we will have more [Actix] examples with Login, Docker etc.
+```toml
+[package]
+name = "react_actix"
+```
+
+We don't need other files made from Rust other than that.
+
+We also have some static files for React frontend code to work at **public** folder.
+
+To sum up, you just need to find how to include these to a docker container we will make.
+
+1. **react_actix**
+2. **public** folder
+
+It will be no different to use these commands in your console to test it separately in your machine.
+
+```console
+$mkdir Docker
+$cp react_actix Docker
+$cp -R public Docker
+$mv Docker && ./react_actix
+```
+
+<br />
+
+## 3. Make a Docker image with Dockerfile
+
+In the previous part, we already learnt which files to include in your Docker container.
+
+What left is to decide which base **Docker image** to use and write a few commands in Dockerfile to make all work.
+
+For it is Rust project, it is easy to think we need [the Rust official image from the Dockerhub](https://hub.docker.com/_/rust).
+
+But, we don't need it for we can just execute the **react_actix** binary project with **$./react_actix** inside a Docker container.
+
+You can compare the results.
+
+1. Whatever OS you use in your machine without Rust.
+
+```console
+steadylearner/rust          78.4MB
+ubuntu                      64.2MB
+```
+
+2. With Rust official Docker container.
+
+```console
+steadylearner/react_actix   1.64GB
+rust                        1.62GB
+```
+
+For we already know the difference, we will finally make a **Dockerfile**. It is just the file to include commands we used manually in [How to use Docker commands]. 
+
+It will make a Docker image and not a container and will be similar to this.
+
+```toml
+FROM ubuntu # 1.
+WORKDIR /app # 2.
+# 3.
+COPY ./public /app/public
+COPY ./target/release/react_actix /app
+EXPOSE 8000 # 4.
+CMD ["./react_actix"] #5.
+```
+
+The process is just to make a virtual development environment similar to your mahcine with Docker. Then, you help it to execute few commands we read in the previous part.
+
+**1.** Use OS or base Docker image you want.
+
+**2.** Use whatever folder name you want for your project.
+
+**3.** We need a static files for React frontend and an executable binary file for **Rust**.
+
+You will only need **COPY ./target/release/react_actix /app** if your project is without frontend code.
+
+**4.** Expose the port you use in your project outside of your docker container.
+
+You can easily verify it with **$curl localhost** later.
+
+**5.** We execute the Rust web app with this. Nothing complicated here.
+
+For **Dockerfile** is ready, make a **./docker-build.bash** file similar to this to make a Docker image with it.
+
+```bash
+docker build -t yourdockerhubaccount/rust .
+```
+
+Execute it with **./docker-build.bash**. It won't take a long time for Docker to build the image.
+
+Then, you can verify the result with **$docker images**. It will be similar to this.
+
+```console
+REPOSITORY                  TAG
+yourproject/rust          latest
+```
+
+<br />
+
+## 4. Verify the result in your machine
+
+The prepartion ends. Make the Docker conatiner from the image you made with this command.
+
+```console
+$docker run -d -p 80:8000 steadylearner/rust
+```
+
+You can verify the Docker container is made from the image with this **$docker ps -a**.
+
+It will show the message similar to this.
+
+```console
+IMAGE                       COMMAND            PORTS
+yourdockerhubaccount/rust   "./react_actix"    0.0.0.0:80->8000/tcp
+```
+
+We exposed **8000** port in the previous part. The result of it is **8000/tcp** above.
+
+Then, we used port mapping with **-p 80:8000** and you can see this worked with this.
+
+```console
+PORTS
+0.0.0.0:80->8000/tcp
+```
+
+Everything is ready. Use **$curl localhost** or visit it with your browser. You will see the same image in your browser. Refresh it also to verify the Rust server side code working well.
+
+[![user-signup](https://www.steadylearner.com/static/images//post/React/user-signup.png)][React Rust]
+
+If you want, you can push this to DockerHub with a command similar to **docker push yourdockerhubaccount/rust**.
+
+It is similar to use GitHub and you should make an account and make a repository first.
+
+<br />
+
+## 5. Conclusion
+
+I hope you made it all work. We learnt how to dockerize Rust web app.
+
+We used React production files to make it more meaningful. You could use whatever static files or without them also.
+
+In the later [Rust blog posts], we will learn how to deploy Rust Docker images to **AWS**. It will be easy.
 
 Finding working Rust code is not easy, so I use Express and other frameworks to prototype the projects and write blog posts for them also. If you want to experiment them, please refer to [React Rust] repository.
 
 If you want the latest contents from Steadylearner, follow me at [Twitter] or star [Rust Full Stack].
 
-Do you need **a Full Stack Rust Developer**? Contact me with [LinkedIn] or [Twitter] and I will help you.
+Do you need **a Full Stack Developer who can use Docker and AWS to deploy the projects**? Contact me with [LinkedIn] or [Twitter] and I will help you.
 
 You can invite me to work with your team. I can learn fast if there is a reason for that.
