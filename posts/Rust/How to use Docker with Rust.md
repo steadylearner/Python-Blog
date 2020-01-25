@@ -111,11 +111,15 @@
 
 In this post, we will learn how to use [Docker][How to use Docker commands] with Rust web frameworks.
 
-We already have [React and Rust server side code] ready for this. It will be similar to this.
+We already have React and Rust server side code ready at [React Rust]. Clone the repository or use the Docker to see the result first.
+
+```console
+$docker run -d -p 80:8000 steadylearner/rust && curl localhost
+``` 
+
+Then, the result will be similar to this.
 
 [![user-signup](https://www.steadylearner.com/static/images//post/React/user-signup.png)][React Rust]
-
-Clone the [React Rust] to use it or test with your Rust web projects.
 
 <br />
 
@@ -132,7 +136,7 @@ I will assume that you are already familiar with Docker and Rust. If you haven't
 
 <h2 class="blue">Table of Contents</h2>
 
-1. Modify Rust project to dockerize
+1. Target **0.0.0.0:** to use your project with Docker
 2. Prepare files to use
 3. Make a Docker image with Dockerfile
 4. Verify the result in your machine
@@ -142,7 +146,7 @@ I will assume that you are already familiar with Docker and Rust. If you haven't
 
 <br />
 
-## 1. Modify the Rust project to dockerize
+## 1. Target 0.0.0.0: to use your project with Docker
 
 This is maybe the simplest but most important part to save your time. Verify your server side code. In server/actix/src/main.rs of [React Rust], you can see the code similar to this.
 
@@ -190,9 +194,11 @@ pub fn main() {
 }
 ```
 
-**Never ever** use **localhost** or **127.0.0.1** etc and only use ports that start with **0.0.0.0.**. This is the same for other web frameworks also.
+**Never ever** use **localhost** or **127.0.0.1** etc and only use ports that start with **0.0.0.0:** if you want to containerize your project with Docker later. This is the same for other web frameworks also.
 
-The port **8000** is used here to synchronize with React frontend made with Webpack. You can use 80 instead when you want to deploy it to AWS. We will learn how to do that in the later [Rust blog posts]
+The port **8000** is used here to synchronize with React frontend made with Webpack. You can use 80 instead when you want to deploy it to AWS. We will learn how to do that in the later [Rust blog posts].
+
+If you want more information of the code used here, please read [How to use React with Rust Actix].
 
 <br />
 
@@ -211,7 +217,7 @@ We don't need other files made from Rust other than that.
 
 We also have some static files for React frontend code to work at **public** folder.
 
-To sum up, you just need to find how to include these to a docker container we will make.
+To sum up, you just need to find how to include these to a Docker image we will make.
 
 1. **react_actix**
 2. **public** folder
@@ -239,23 +245,27 @@ But, we don't need it for we can just execute the **react_actix** binary project
 
 You can compare the results.
 
-1. Whatever OS you use in your machine without Rust.
+1. Whatever OS you use in your machine.
 
-```console
-steadylearner/rust          78.4MB
-ubuntu                      64.2MB
+```json
+{
+    "ubuntu": "64.2MB",
+    "with_project": "78.4MB"
+}
 ```
 
-2. With Rust official Docker container.
+2. With Rust official Docker image.
 
-```console
-steadylearner/react_actix   1.64GB
-rust                        1.62GB
+```json
+{
+    "rust": "1.62GB",
+    "with_project": "1.64GB"
+}
 ```
 
-For we already know the difference, we will finally make a **Dockerfile**. It is just the file to include commands we used manually in [How to use Docker commands]. 
+For we already know the difference, we will finally make a **Dockerfile**. It is just the file to include commands we used manually before in [How to use Docker commands].
 
-It will make a Docker image and not a container and will be similar to this.
+**It will make a Docker image and not a container** and will be similar to this.
 
 ```toml
 FROM ubuntu # 1.
@@ -273,9 +283,9 @@ The process is just to make a virtual development environment similar to your ma
 
 **2.** Use whatever folder name you want for your project.
 
-**3.** We need a static files for React frontend and an executable binary file for **Rust**.
+**3.** We need static files for React frontend and an executable binary file for **Rust**.
 
-You will only need **COPY ./target/release/react_actix /app** if your project is without frontend code.
+You will only need **COPY ./target/release/react_actix /app** if your project is without the frontend code.
 
 **4.** Expose the port you use in your project outside of your docker container.
 
@@ -286,7 +296,7 @@ You can easily verify it with **$curl localhost** later.
 For **Dockerfile** is ready, make a **./docker-build.bash** file similar to this to make a Docker image with it.
 
 ```bash
-docker build -t yourdockerhubaccount/rust .
+docker build -t youraccount/rust .
 ```
 
 Execute it with **./docker-build.bash**. It won't take a long time for Docker to build the image.
@@ -294,8 +304,8 @@ Execute it with **./docker-build.bash**. It won't take a long time for Docker to
 Then, you can verify the result with **$docker images**. It will be similar to this.
 
 ```console
-REPOSITORY                  TAG
-yourproject/rust          latest
+REPOSITORY              TAG
+youraccount/rust          latest
 ```
 
 <br />
@@ -313,24 +323,22 @@ You can verify the Docker container is made from the image with this **$docker p
 It will show the message similar to this.
 
 ```console
-IMAGE                       COMMAND            PORTS
-yourdockerhubaccount/rust   "./react_actix"    0.0.0.0:80->8000/tcp
+COMMAND        PORTS
+"./react_actix"    0.0.0.0:80->8000/tcp
 ```
 
 We exposed **8000** port in the previous part. The result of it is **8000/tcp** above.
 
-Then, we used port mapping with **-p 80:8000** and you can see this worked with this.
+Then, we used port mapping with **-p 80:8000** to test it easily with **curl** and you can see it worked with this.
 
 ```console
 PORTS
 0.0.0.0:80->8000/tcp
 ```
 
-Everything is ready. Use **$curl localhost** or visit it with your browser. You will see the same image in your browser. Refresh it also to verify the Rust server side code working well.
+Everything is ready. Use **$curl localhost** or visit it with your browser. Refresh it also at **/**, **/user** to verify the Rust server side code working well.
 
-[![user-signup](https://www.steadylearner.com/static/images//post/React/user-signup.png)][React Rust]
-
-If you want, you can push this to DockerHub with a command similar to **docker push yourdockerhubaccount/rust**.
+If you want, you can push this to DockerHub with a command similar to **$docker push youraccount/rust**.
 
 It is similar to use GitHub and you should make an account and make a repository first.
 
@@ -342,7 +350,7 @@ I hope you made it all work. We learnt how to dockerize Rust web app.
 
 We used React production files to make it more meaningful. You could use whatever static files or without them also.
 
-In the later [Rust blog posts], we will learn how to deploy Rust Docker images to **AWS**. It will be easy.
+In the later [Rust blog posts], we will learn how to deploy Rust Docker images to **AWS**. It won't be difficult for we have various examples already at [React Rust] you can compare.
 
 Finding working Rust code is not easy, so I use Express and other frameworks to prototype the projects and write blog posts for them also. If you want to experiment them, please refer to [React Rust] repository.
 
