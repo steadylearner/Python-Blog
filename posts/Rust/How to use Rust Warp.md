@@ -75,7 +75,7 @@
 
 [Warp]: https://github.com/seanmonstar/warp
 [Warp official example]: https://github.com/seanmonstar/warp#example
-[Warp offiical examples]: https://github.com/seanmonstar/warp/tree/master/examples
+[Warp official examples]: https://github.com/seanmonstar/warp/tree/master/examples
 [Warp examples]: https://github.com/steadylearner/Rust-Full-Stack/tree/master/warp
 [Warp documentation]: https://docs.rs/warp/0.2.1/warp/
 [Warp database example]: https://github.com/steadylearner/Rust-Full-Stack/tree/master/warp/database/2.%20with_db_pool/src
@@ -161,29 +161,31 @@ If you want to build a full stack Rust app, you can also refer to [How to use Ru
 <h2 class="red-white">[Prerequisite]</h2>
 
 1. [How to install Rust]
-2. [Warp documentation]
-3. [Warp offiical examples]
+2. [Warp documentation] and [Warp official examples]
+3. [The article to help you find Futures, Serivces and Filters better](https://blog.twitter.com/engineering/en_us/a/2011/finagle-a-protocol-agnostic-rpc-system.html)
 4. [FP in Rust]
 5. [Reading Rust function signatures]
-6. [Real world Tacit programming part 1]
-7. [Real world Tacit programming part 2]
-8. [Rust closures are hard]
+6. [Real world Tacit programming part 1] and [Real world Tacit programming part 2]
+7. [Rust closures are hard]
+8. [Rust Future crate](https://docs.rs/futures), [Future by Example](https://docs.rs/future-by-example/0.1.0/future_by_example/) and [Rust future and_then](https://docs.rs/futures/0.3.1/futures/future/trait.TryFutureExt.html#method.and_then)
 
 ---
 
 I want you to install Rust first if you haven't yet. The blog post [How to install Rust] will help you. If necessary, visit [Rust Website] for more information.
 
-In this post, I will assume that you are already familir with Rust. If not, please [learn how to use it first][Learn Rust].
+In this post, I will assume that you are already familiar with Rust. If not, please [learn how to use it first][Learn Rust].
 
-Before you read on this post, I hope you read [Warp documentation] and [Warp offiical examples] thoroughly. You can also use this command after you install the dependencis later.
+Before you read on this post, I hope you read [Warp documentation] and [Warp official examples] thoroughly. You can also use this command after you install the dependency later.
 
 ```console
 $cargo doc -p warp --open
 ```
 
-It will be helpful to give more time to read the [routing example from the author](https://github.com/seanmonstar/warp/blob/master/examples/routing.rs). You will see that the author use [Closures][Rust closures are hard] as a main API of the framework. I let several documenations to help you find how they work better.
+It will be helpful to give more time to read the [routing example from the author](https://github.com/seanmonstar/warp/blob/master/examples/routing.rs). You will see that the author use [Closures][Rust closures are hard] as a main API of the framework. I let several documentations to help you find how they work better.
 
 **Hope you read all of them after you complete this post.**
+
+[You can also find more about and_then.](https://www.google.com/search?&q=rust+and_then)
 
 <br />
 
@@ -192,7 +194,7 @@ It will be helpful to give more time to read the [routing example from the autho
 1. Start with the official example
 2. Refactor it
 3. Make Routes to filter user requests
-4. Build Handlers to responsd to them
+4. Build Handlers to respond to them
 5. Link them to end the API with macro
 6. Test it work with CURL and Rust
 7. **Conclusion**
@@ -203,7 +205,7 @@ The structure of project for this post is opinionated.
 
 I could find that Warp projects can be organized similar to [Express] ones. It won't be difficult to make it this way if you are already familiar with Rust module systems.
 
-(I hope you also spend time to read [its documenation.](https://expressjs.com/en/starter/installing.html)
+(I hope you also spend time to read [its documentation.](https://expressjs.com/en/starter/installing.html))
 
 You will learn how to use [Warp] with this post.
 
@@ -225,7 +227,7 @@ Then, include dependencies in your Rust project by pasting this from the author 
 
 ```toml
 tokio = { version = "0.2", features = ["macros"] }
-warp = "0.2"
+warp = "0.2.1"
 ```
 
 You can also consider [cargo edit] commands instead.
@@ -246,7 +248,7 @@ async fn main() {
 }
 ```
 
-Everything is ready. Use **$cargo run --release** then read on this blog post instead of waiting it to complete.
+Everything is ready. Use **$cargo run --release**. Then, read on this blog post instead of waiting it to complete.
 
 (It did take about 17 minutes in my more than half ten year old laptop. Hope your machine is faster than this.)
 
@@ -258,7 +260,7 @@ $curl 0.0.0.0:8000/hello/www.steadylearner.com // return "Hello, www.steadylearn
 
 I hope your fisrt Warp app worked.
 
-The codes used here are very simple. But, a little help to find how they work will be very useful.
+The code used here is very simple. But, a little help to find how they work will be very useful.
 
 **1.** If you read its documenation already, the author says this.
 
@@ -271,7 +273,7 @@ Therefore, it is used for this minimal example to demonstrate how it works and y
 
 **2.** Warp uses [tokio] as its async task runner behind the scenes. You won't have to care for it much to make the example work except "its alternative is [async std] and they are not that compatible currently".
 
-If you want to learn more about async programming with Rust, please read [all the documenation at async folder][Rust async] in the [Rust Full Stack].
+If you want to learn more about async programming with Rust, please read [all the documenations at async folder][Rust async] in the [Rust Full Stack].
 
 **3.** If you are new to Warp framework, it may be difficult to find what this do. You can think that "hello" is static path and **String** part is to show your intention to receive dynamic param and that should be only **String** type.
 
@@ -279,7 +281,7 @@ If you are familar with other web framework such as **Express**. You can compare
 
 The difference is you express only what you want to allow and use with the API given by **Warp**. Compare it with **routes/hello_route.rs** later.
 
-**4.** The Rust clsoure is used here.
+**4.** The Rust clsoure is used here.(If you are familar with **Express**, You can compare it with **res**(respond) part of it.)
 
 You can see that you could use **name** variable here inside || to use **String** param we allowed before. Then, you could express what you want to do with this.
 
@@ -293,11 +295,11 @@ If you are new to Rust, you may wonder how the closure work without typing the *
 
 That is because Rust compiler infers types for them instead of you. If you read the documenations for that already, it will be easy to find how they work.
 
-With the help of it, the API of Warp becomes very easy and will be similar to use JavaScript arrow functions.
+With the help of it, the API of Warp becomes very easy with clsoures and will be similar to use JavaScript arrow functions.
 
-But, differnt from JavaScript, it is not easy to make the API defined with it to separate variables and reusable. Therefore, we will use **functions** and **macros** instead.
+But, differnt from JavaScript, it is not easy to make the closures reusable through the entire project. Therefore, we will use **functions** and **macros** instead.
 
-**5.** We already made a hello API before and learnt how they were made. Let the **Warp** serve it with this.
+**5.** We already made a hello API and saved it to **hello** variable before and learnt how they were made. Let the **Warp** serve it with this.
 
 **6.** [I prefer to use 0.0.0.0 instead of localhost and its alias 127.0.0.1](https://www.google.com/search?&q=why+use+0.0.0.0+instead+of+localhost) to [dockerize apps easily][How to use Docker with Rust].
 
@@ -309,7 +311,7 @@ I hope this brief explantion helped you.
 
 ## 2. Refactor it
 
-Previously, we could make the official Warp example work and learnt each part of it.
+Previously, we could make the official Warp example work and learnt details of each part.
 
 We will refactor the example by using functions instead of the closure used there. When you end the process, the whole project will be simialr to this.
 
@@ -337,7 +339,7 @@ You can see many **mod.rs** there. But, its contents will be very simple with **
 
 If you want more information about this, please refer to [How to modulize your Rust Frontend] or [Rust Yew frontend example](https://github.com/steadylearner/Rust-Full-Stack/tree/master/web/src).
 
-(Rust wants you to be specific with everything and exporting the modules also. If you find its module system difficult, first search what represents them. It will be mod.rs in each folder and main.rs or lib.rs in top level. **crate** will represent main.rs or lib.rs and will work as if they are publisehd **crate** or **similar to package in JavaScript**. **self** will be used to use modules inside them instead of main.rs or lib.rs. You may want to use **crate** keyword but it won't because it already used inside **extern crate somecrate** syntax. So many texts, but I let this to help you but it will be better to learn it with examples.)
+(Rust wants you to be specific with everything and exporting and importing the modules also. If you find its module system difficult, first search what represents them. It will be **mod.rs** in each folder and **main.rs** or **lib.rs** in top level directory of your Rust project. **crate** will represent main.rs or lib.rs and will work as if they are publisehd **crate** or **similar to package in JavaScript**. **self** will be used to use modules inside them instead of main.rs or lib.rs. You may want to use **crate** keyword but it won't because it already used inside **extern crate somecrate** syntax. So many texts, but I let this to help you but it will be better to learn it with examples.)
 
 So without those mod.rs files, what we need will be just these.
 
@@ -421,7 +423,7 @@ let hello = hello_route::hello()
 
 You may wonder why macro is used here when you can use **functions** etc.
 
-This was the last solution that I thought but maybe the simplest one. It was not easy to type the code because some types used for them are **private**, some are **unstable** and **not allowed** by the compiler.
+This was the last solution that I thought but maybe the simplest one. It was not easy to type the code because some types used for them are **private**, **unstable** and **not allowed** by the compiler.
 
 You may refer to [compare](https://github.com/steadylearner/Rust-Full-Stack/tree/master/warp/hello_world/src/compare) folder before you would find the better way.
 
@@ -483,19 +485,19 @@ You may think what are **BoxedFilter<()>** and **.boxed()** here. Think them as 
 **2.** This will be the payload of this file. You define what you want to **filter**(use) from the user requests here.
 
 **3.** Receive(filter) only GET requests.
-**4.** That starts with /hello prefix we made in **1.**.
+**4.** That starts with /hello prefix we made before.
 
 **5.** "Warp, accept param with **String** type only."
 
-[You can also use custom types such as Post, NewPost](https://github.com/steadylearner/Rust-Full-Stack/blob/master/warp/database/2.%20with_db_pool/src/models/post.rs) here.
+You can see that it will be the argument of the function we will make in **route_hanlder** later.
 
-You can see that it will be the arguments of the function we will make in **route_hanlder** later.
+[You can also use custom types such as Post, NewPost.](https://github.com/steadylearner/Rust-Full-Stack/blob/master/warp/database/2.%20with_db_pool/src/models/post.rs)
 
-The codes used here are self-explanatory. But, hope this part helped you.
+The code used here is self-explanatory. But, hope these explanations helped you.
 
 <br />
 
-## 4. Build Handlers to responsd to them
+## 4. Build Handlers to respond to them
 
 In the previous part, we defined the route to filter user requests. We will define how to handle them by builidng **hello_handler.rs**
 
@@ -521,11 +523,11 @@ Result<impl warp::Reply, warp::Rejection>
 
 **Therefore, just copy and paste** after you read the documentation for [Reply](https://docs.rs/warp/0.1.0/warp/reply/index.html) and [Rejection](https://docs.rs/warp/0.1.0/warp/reject/struct.Rejection.html).
 
-You must care for how to handle Rejection parts. But, it is not necessary for this simple example. So, we won't handle it much here.
+You must care for how to handle Rejection parts. But, it is not necessary for this simple example.
 
-You can also see that **String** param we filtered in **hello_route.rs** became the parameter of the function hee.
+You can also see that the **String** param we filtered in **hello_route.rs** became the parameter of the function here.
 
-Compare it to what we used before in the first part.
+Compare it with what we used before in the first part.
 
 ```rust
 .map(|name| format!("Hello, {}!", name));
@@ -549,7 +551,7 @@ macro_rules! hello {
 }
 ```
 
-With **#[macro_export]**, [the macros defined this way become gloally available with crate level.](https://stackoverflow.com/questions/29068716/how-do-you-use-a-macro-from-inside-its-own-crate).
+With **#[macro_export]**, [the macros defined this way become globally available at crate level.](https://stackoverflow.com/questions/29068716/how-do-you-use-a-macro-from-inside-its-own-crate).
 
 They will only work when the module including it is included at **main.rs** or **lib.rs** that represent your Rust project with **mod api**.
 
@@ -587,7 +589,7 @@ First, use **$curl 0.0.0.0:8000/hello/www.steadylearner.com**. It will show the 
 **1.** We have to make the Warp server ready all the time first. Rust compiler will take up your time.
 **2.** Then, you should find which CURL commands to use. That can be complicated.
 
-Therfore, we will make Rust test functions to simplify and automate the process. We will build **tests/hello_test.rs** equivalent to the CURL command we used.
+Therefore, we will make Rust test functions to simplify and automate the process. We will build **tests/hello_test.rs** equivalent to the CURL command we used.
 
 ```rust
 use warp::Filter;
@@ -630,17 +632,37 @@ The important points are these.
 
 **2.** Build a specific client request to test before **.reply**. It won't be difficult to find what these do because the same thoughts are used again.
 
-**3.** Define here how you will reply to the request here. We already made **hello!** API before for this. Use it here.
+**3.** Define here how you will reply to the request here. We already made **hello!** API for this.
 
-**4.** See the server return **OK** with this.
+**4.** See the server return **OK** with it.
 
 **5.** You can test the function with **$cargo test hello**.
 
 You can also use -- --nocapture flag to show **stdout** parts. For example, test it again with **$cargo test hello -- --nocapture**.
 
-With this tests, you can test your API easily whenever you modify **routes** and **hanlder** parts.
+With CURL and a test with Rust, you can verify your API easily whenever you modify files in **routes/** and **handlers/**.
 
-If you are curious, you can also test the performance with it with [loadtest](https://github.com/steadylearner/Rust-Full-Stack/blob/master/warp/hello_world/loadtest.md). That won't be slow.
+If you are curious, you can also test the performance with [loadtest](https://github.com/steadylearner/Rust-Full-Stack/blob/master/warp/hello_world/loadtest.md).
+
+That won't be slow and its memory usage is very low.(**4.62 Mb** in my Linux Ubuntu 18.04 machine.)
+
+Test on your own with this command on Linux while your Warp server is ready in another console.
+
+1. Use this to see all memory usages in your system.
+
+```console
+$ps -eo size,pid,user,command --sort -size | awk '{ hr=$1/1024; printf("%13.2f Mb ",hr) } { for ( x=4 ; x<=NF ; x++ ) { printf("%s ",$x) } print "" }' | cut -d "" -f2 | cut -d "-" -f1
+```
+
+2. You can also include **grep** and Linux pipe **|** to see only how much memory Warp needs.
+
+```console
+$ps -eo size,pid,user,command --sort -size | awk '{ hr=$1/1024; printf("%13.2f Mb ",hr) } { for ( x=4 ; x<=NF ; x++ ) { printf("%s ",$x) } print "" }' | cut -d "" -f2 | cut -d "-" -f1 | grep "hello_world"
+```
+
+[Refer to them to compare it with other web frameworks you use](https://github.com/steadylearner/Rust-Full-Stack/tree/master/React_Rust#golang).
+
+<br />
 
 ## 7. Conclusion
 
@@ -670,4 +692,4 @@ I really want to find where to spend my skills.
 
 **Without them, I wouldn't have written this blog post and made the examples.**
 
-(Rust will be used much more than before and have many opportunities this year. I want these blog posts could contriute to that.)
+(Rust will be used much more than before and have many opportunities this year. I want these blog posts could contribute to that.)

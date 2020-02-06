@@ -362,7 +362,11 @@
 .markdown pre code, .markdown pre tt {
   background-color: transparent;
   border: none;
-  font-family: Inconsolata;
+  /* 
+    Give a default font("Helevetica or whatever you want") 
+    if the custom font Inconsolata shows errors. 
+  */
+  font-family: Inconsolata, Helvetica;
   font-size: 1.45rem;
 }
 
